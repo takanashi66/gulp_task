@@ -2,7 +2,7 @@
 
 ## Install
 
-````
+```
 sudo npm install gulp --save-dev
 ```
 

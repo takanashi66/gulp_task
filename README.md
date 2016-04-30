@@ -15,6 +15,7 @@ sudo npm install gulp-plumber --save-dev
 
 ## Directory Map
 
+```
 project/
    ├ gulp/
    │  ├ node_modules/
@@ -27,3 +28,4 @@ project/
       │  ├ img/
       │  └ js/
       └ index.htmlt
+```

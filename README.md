@@ -17,7 +17,7 @@ sudo npm install gulp-plumber --save-dev
 
 ```
 project/
-   ├ gulp/
+   ├ src/
    │  ├ node_modules/
    │  ├ sass/
    │  ├ gulpfile.js

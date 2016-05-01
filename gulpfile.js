@@ -20,7 +20,7 @@ gulp.task('browser-sync', function() {
 gulp.task('browser-sync', function() {
     browserSync({
         server: {
-             baseDir: "../" //監視するディレクトリ
+             baseDir: "../html/" //監視するディレクトリ
             ,index  : "index.html"
         }
     });
@@ -28,16 +28,15 @@ gulp.task('browser-sync', function() {
 
 
 gulp.task('compass', function() {
-  gulp.src('../*.scss')
+  gulp.src('sass/**/*.scss')
     .pipe(plumber({
       errorHandler: function (error) {
         console.log(error.message);
         this.emit('end');
     }}))
     .pipe(compass({
-      config_file: 'config.rb',
-      css: '../css',
-      sass: '../sass',
+      css: '../html/common/css',
+      sass: 'sass',
     }))
     .pipe(gulp.dest('../css'));
 });
@@ -50,7 +49,7 @@ gulp.task('bs-reload', function () {
 
 
 gulp.task('watch', function(){
-    gulp.watch('../sass/*.scss', function(event) {
+    gulp.watch('sass/**/*.scss', function(event) {
         gulp.run('compass');
     });
 });
@@ -59,10 +58,10 @@ gulp.task('watch', function(){
 
 //監視するファイル
 gulp.task('default', ['browser-sync'], function () {
-    gulp.watch("../*.html",            ['bs-reload']);
-    gulp.watch("../*.php",            ['bs-reload']);
-    gulp.watch("../css/*.css", ['bs-reload']);
-    gulp.watch("../sass/*.scss", ['bs-reload']);
-    gulp.watch("../js/*.js",   ['bs-reload']);
-    gulp.watch('../sass/**/*.scss', ['compass']);
+    gulp.watch("../html/*.html",            ['bs-reload']);
+    gulp.watch("../html/*.php",            ['bs-reload']);
+    gulp.watch("../html/common/css/*.css", ['bs-reload']);
+    gulp.watch("sass/*.scss", ['bs-reload']);
+    gulp.watch("../html/common/js/*.js",   ['bs-reload']);
+    gulp.watch('sass/*.scss', ['compass']);
 });

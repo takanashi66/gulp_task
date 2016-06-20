@@ -12,18 +12,18 @@ gulp.task('browser-sync', function() {
     browserSync.init({
 	    proxy: "10.0.1.4/wordpress/"
     });
-    
+
 });
 */
 
 //通常
 gulp.task('browser-sync', function() {
-    browserSync({
-        server: {
-             baseDir: "../html/" //監視するディレクトリ
-            ,index  : "index.html"
-        }
-    });
+	browserSync({
+		server: {
+			baseDir: "../" //監視するディレクトリ
+			,index  : "index.html"
+		}
+	});
 });
 
 
@@ -35,18 +35,11 @@ gulp.task('compass', function() {
         this.emit('end');
     }}))
     .pipe(compass({
-      css: '../html/common/css',
+      css: '../common/css',
       sass: 'sass',
     }))
     .pipe(gulp.dest('../css'));
 });
-
-
-//ブラウザリロード
-gulp.task('bs-reload', function () {
-    browserSync.reload();
-});
-
 
 gulp.task('watch', function(){
     gulp.watch('sass/**/*.scss', function(event) {
@@ -54,14 +47,19 @@ gulp.task('watch', function(){
     });
 });
 
+//ブラウザリロード
+gulp.task('bs-reload', function () {
+    browserSync.reload();
+});
+
 
 
 //監視するファイル
 gulp.task('default', ['browser-sync'], function () {
-    gulp.watch("../html/*.html",            ['bs-reload']);
-    gulp.watch("../html/*.php",            ['bs-reload']);
-    gulp.watch("../html/common/css/*.css", ['bs-reload']);
-    gulp.watch("sass/*.scss", ['bs-reload']);
-    gulp.watch("../html/common/js/*.js",   ['bs-reload']);
-    gulp.watch('sass/*.scss', ['compass']);
+    gulp.watch("../*.html",             ['bs-reload']);
+    gulp.watch("../*.php",              ['bs-reload']);
+    gulp.watch("../common/css/*.css",   ['bs-reload']);
+    gulp.watch("sass/*.scss",           ['bs-reload']);
+    gulp.watch("../common/js/*.js",     ['bs-reload']);
+    gulp.watch('sass/*.scss',           ['compass']);
 });

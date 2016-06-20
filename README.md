@@ -17,15 +17,14 @@ sudo npm install gulp-plumber --save-dev
 
 ```
 project/
-   ├ src/
-   │  ├ node_modules/
-   │  ├ sass/
-   │  ├ gulpfile.js
-   │  └ config.rb
-   └ html/
-      ├ common/
-      │  ├ css/
-      │  ├ img/
-      │  └ js/
-      └ index.htmlt
+  ├ common/
+  │  ├ css/
+  │  ├ img/
+  │  └ js/
+  ├ src/
+  │  ├ node_modules/
+  │  ├ sass/
+  │  ├ gulpfile.js
+  │  └ config.rb
+  └ index.htmlt
 ```

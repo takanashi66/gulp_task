@@ -2,19 +2,9 @@ var gulp = require('gulp');
 var browserSync =require('browser-sync');
 var compass = require('gulp-compass');
 var plumber = require('gulp-plumber');
+var pleeease = require('gulp-pleeease');
 
 gulp.task('default', ['browser-sync']);
-
-
-/*
-//MAMP経由用
-gulp.task('browser-sync', function() {
-    browserSync.init({
-	    proxy: "10.0.1.4/wordpress/"
-    });
-
-});
-*/
 
 //通常
 gulp.task('browser-sync', function() {
@@ -26,25 +16,42 @@ gulp.task('browser-sync', function() {
 	});
 });
 
-
-gulp.task('compass', function() {
-  gulp.src('sass/**/*.scss')
-    .pipe(plumber({
-      errorHandler: function (error) {
-        console.log(error.message);
-        this.emit('end');
-    }}))
-    .pipe(compass({
-      css: '../common/css',
-      sass: 'sass',
-    }))
-    .pipe(gulp.dest('../css'));
+//compass
+gulp.task('compass', function () {
+	gulp.src('scss/*.scss')
+  .pipe(plumber({
+    errorHandler: function (error) {
+      console.log(error.message);
+      this.emit('end');
+  }}))
+  .pipe(compass({
+    css: 'css',
+    sass: 'sass',
+  }))
 });
 
+//pleeease
+gulp.task('pleeease', function () {
+	gulp.src('css/*.css')
+	.pipe(pleeease({
+		out: 'style.min.css',
+	  mqpacker: true,
+	  minifier: true,
+		autoprefixer: false
+	}))
+	.pipe(gulp.dest('../common/css'));
+});
+
+
+
 gulp.task('watch', function(){
-    gulp.watch('sass/**/*.scss', function(event) {
-        gulp.run('compass');
-    });
+  gulp.watch('scss/*.scss', function(event) {
+      gulp.run('compass');
+  });
+  
+  gulp.watch('css/*.css', function(event) {
+      gulp.run('pleeease');
+  });
 });
 
 //ブラウザリロード
@@ -62,4 +69,5 @@ gulp.task('default', ['browser-sync'], function () {
     gulp.watch("sass/*.scss",           ['bs-reload']);
     gulp.watch("../common/js/*.js",     ['bs-reload']);
     gulp.watch('sass/*.scss',           ['compass']);
+    gulp.watch('css/*.css',           	['pleeease']);
 });

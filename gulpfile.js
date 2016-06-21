@@ -28,21 +28,21 @@ gulp.task('browser-sync', function() {
 
 
 gulp.task('compass', function() {
-  gulp.src('sass/**/*.scss')
+  gulp.src('sass/*.scss')
     .pipe(plumber({
       errorHandler: function (error) {
         console.log(error.message);
         this.emit('end');
     }}))
     .pipe(compass({
-      css: '../common/css',
+      css: 'css',
       sass: 'sass',
     }))
-    .pipe(gulp.dest('../css'));
+    .pipe(gulp.dest('../commoncss'));
 });
 
 gulp.task('watch', function(){
-    gulp.watch('sass/**/*.scss', function(event) {
+    gulp.watch('sass/*.scss', function(event) {
         gulp.run('compass');
     });
 });

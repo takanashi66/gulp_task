@@ -26,7 +26,21 @@ gulp.task('browser-sync', function() {
 	});
 });
 
+//compass
+gulp.task('compass', function () {
+	gulp.src('scss/*.scss')
+  .pipe(plumber({
+    errorHandler: function (error) {
+      console.log(error.message);
+      this.emit('end');
+  }}))
+  .pipe(compass({
+    css: 'css',
+    sass: 'sass',
+  }))
+});
 
+<<<<<<< HEAD
 gulp.task('compass', function() {
   gulp.src('sass/*.scss')
     .pipe(plumber({
@@ -39,12 +53,36 @@ gulp.task('compass', function() {
       sass: 'sass',
     }))
     .pipe(gulp.dest('../commoncss'));
+=======
+//pleeease
+gulp.task('pleeease', function () {
+	gulp.src('css/*.css')
+	.pipe(pleeease({
+		out: 'style.min.css',
+	  mqpacker: true,
+	  minifier: true,
+		autoprefixer: false
+	}))
+	.pipe(gulp.dest('../common/css'));
+>>>>>>> gulp-pleeease
 });
 
+
+
 gulp.task('watch', function(){
+<<<<<<< HEAD
     gulp.watch('sass/*.scss', function(event) {
         gulp.run('compass');
     });
+=======
+  gulp.watch('scss/*.scss', function(event) {
+      gulp.run('compass');
+  });
+  
+  gulp.watch('css/*.css', function(event) {
+      gulp.run('pleeease');
+  });
+>>>>>>> gulp-pleeease
 });
 
 //ブラウザリロード
@@ -62,4 +100,5 @@ gulp.task('default', ['browser-sync'], function () {
     gulp.watch("sass/*.scss",           ['bs-reload']);
     gulp.watch("../common/js/*.js",     ['bs-reload']);
     gulp.watch('sass/*.scss',           ['compass']);
+    gulp.watch('css/*.css',           	['pleeease']);
 });

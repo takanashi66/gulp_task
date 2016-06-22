@@ -3,6 +3,7 @@ var browserSync =require('browser-sync');
 var compass = require('gulp-compass');
 var plumber = require('gulp-plumber');
 var pleeease = require('gulp-pleeease');
+var uglify = require('gulp-uglify');
 
 gulp.task('default', ['browser-sync']);
 
@@ -42,6 +43,13 @@ gulp.task('pleeease', function () {
 	.pipe(gulp.dest('../common/css'));
 });
 
+//uglify
+gulp.task('uglify', function() {
+  return gulp.src('js/*.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('../common/css'));
+});
+
 
 
 gulp.task('watch', function(){
@@ -51,6 +59,10 @@ gulp.task('watch', function(){
   
   gulp.watch('css/*.css', function(event) {
       gulp.run('pleeease');
+  });
+  
+  gulp.watch('js/*.js', function(event) {
+      gulp.run('uglify');
   });
 });
 
@@ -70,4 +82,5 @@ gulp.task('default', ['browser-sync'], function () {
     gulp.watch("../common/js/*.js",     ['bs-reload']);
     gulp.watch('sass/*.scss',           ['compass']);
     gulp.watch('css/*.css',           	['pleeease']);
+    gulp.watch('js/*.js',         	  	['uglify']);
 });

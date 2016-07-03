@@ -4,6 +4,7 @@ var compass = require('gulp-compass');
 var plumber = require('gulp-plumber');
 var pleeease = require('gulp-pleeease');
 var uglify = require('gulp-uglify');
+var rename = require("gulp-rename"); 
 
 gulp.task('default', ['browser-sync']);
 
@@ -11,7 +12,7 @@ gulp.task('default', ['browser-sync']);
 gulp.task('browser-sync', function() {
 	browserSync({
 		server: {
-			baseDir: "../" //監視するディレクトリ
+			baseDir: "../../" //監視するディレクトリ
 			,index  : "index.html"
 		}
 	});
@@ -19,7 +20,7 @@ gulp.task('browser-sync', function() {
 
 //compass
 gulp.task('compass', function () {
-	gulp.src('scss/*.scss')
+	gulp.src('../scss/*.scss')
   .pipe(plumber({
     errorHandler: function (error) {
       console.log(error.message);
@@ -33,35 +34,38 @@ gulp.task('compass', function () {
 
 //pleeease
 gulp.task('pleeease', function () {
-	gulp.src('css/*.css')
+	gulp.src('../css/*.css')
 	.pipe(pleeease({
 		out: 'style.min.css',
 	  mqpacker: true,
 	  minifier: true,
 		autoprefixer: false
 	}))
-	.pipe(gulp.dest('../common/css'));
+	.pipe(gulp.dest('../css'));
 });
 
 //uglify
 gulp.task('uglify', function() {
-  return gulp.src('js/*.js')
+  return gulp.src('../js/*.js')
     .pipe(uglify())
-    .pipe(gulp.dest('../common/css'));
+    .pipe(rename({
+      extname: '.min.js'
+    }))
+    .pipe(gulp.dest('../js'));
 });
 
 
 
 gulp.task('watch', function(){
-  gulp.watch('scss/*.scss', function(event) {
+  gulp.watch('../scss/*.scss', function(event) {
       gulp.run('compass');
   });
   
-  gulp.watch('css/*.css', function(event) {
+  gulp.watch('../css/*.css', function(event) {
       gulp.run('pleeease');
   });
   
-  gulp.watch('js/*.js', function(event) {
+  gulp.watch('../js/*.js', function(event) {
       gulp.run('uglify');
   });
 });
@@ -75,12 +79,13 @@ gulp.task('bs-reload', function () {
 
 //監視するファイル
 gulp.task('default', ['browser-sync'], function () {
-    gulp.watch("../*.html",             ['bs-reload']);
-    gulp.watch("../*.php",              ['bs-reload']);
-    gulp.watch("../common/css/*.css",   ['bs-reload']);
-    gulp.watch("sass/*.scss",           ['bs-reload']);
-    gulp.watch("../common/js/*.js",     ['bs-reload']);
-    gulp.watch('sass/*.scss',           ['compass']);
-    gulp.watch('css/*.css',           	['pleeease']);
-    gulp.watch('js/*.js',         	  	['uglify']);
+    gulp.watch("../../*.html",   ['bs-reload']);
+    gulp.watch("../../*.php",    ['bs-reload']);
+    gulp.watch("../css/*.css",   ['bs-reload']);
+    gulp.watch("../sass/*.scss", ['bs-reload']);
+    gulp.watch("../js/*.js",     ['bs-reload']);
+    gulp.watch('../js/*.js',     ['bs-reload']);
+    gulp.watch('../sass/*.scss', ['compass']);
+    gulp.watch('../css/*.css',   ['pleeease']);
+    gulp.watch('../js/*.js',     ['uglify']);
 });

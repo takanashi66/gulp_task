@@ -4,6 +4,7 @@ var compass = require('gulp-compass');
 var plumber = require('gulp-plumber');
 var pleeease = require('gulp-pleeease');
 var uglify = require('gulp-uglify');
+var rename = require("gulp-rename");
 
 gulp.task('default', ['browser-sync']);
 
@@ -35,11 +36,13 @@ gulp.task('compass', function () {
 gulp.task('pleeease', function () {
 	gulp.src('css/*.css')
 	.pipe(pleeease({
-		out: 'style.min.css',
 	  mqpacker: true,
 	  minifier: true,
 		autoprefixer: false
 	}))
+	.pipe(rename({
+  	extname: '.min.css'
+  }))
 	.pipe(gulp.dest('../common/css'));
 });
 
@@ -47,6 +50,9 @@ gulp.task('pleeease', function () {
 gulp.task('uglify', function() {
   return gulp.src('js/*.js')
     .pipe(uglify())
+    .pipe(rename({
+      extname: '.min.js'
+    }))
     .pipe(gulp.dest('../common/js'));
 });
 

@@ -12,6 +12,7 @@ sudo npm install gulp-compass --save-dev
 sudo npm install gulp-plumber --save-dev
 sudo npm install gulp-pleeease --save-dev
 sudo npm install gulp-uglify --save-dev
+sudo npm install gulp-rename --save-dev
 ```
 
 

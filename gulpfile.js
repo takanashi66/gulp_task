@@ -20,7 +20,7 @@ gulp.task('browser-sync', function() {
 
 //compass
 gulp.task('compass', function () {
-	gulp.src('scss/*.scss')
+	gulp.src('sass/*.scss')
   .pipe(plumber({
     errorHandler: function (error) {
       console.log(error.message);
@@ -57,18 +57,17 @@ gulp.task('uglify', function() {
 });
 
 
-
 gulp.task('watch', function(){
-  gulp.watch('scss/*.scss', function(event) {
-      gulp.run('compass');
-  });
-  
   gulp.watch('css/*.css', function(event) {
       gulp.run('pleeease');
   });
   
   gulp.watch('js/*.js', function(event) {
       gulp.run('uglify');
+  });
+  
+  gulp.watch('sass/*.scss', function(event) {
+      gulp.run('compass');
   });
 });
 
@@ -83,8 +82,8 @@ gulp.task('bs-reload', function () {
 gulp.task('default', ['browser-sync'], function () {
     gulp.watch("../*.html",             ['bs-reload']);
     gulp.watch("../*.php",              ['bs-reload']);
-    gulp.watch("../**/*.html",             ['bs-reload']);
-    gulp.watch("../**/*.php",              ['bs-reload']);
+    gulp.watch("../**/*.html",          ['bs-reload']);
+    gulp.watch("../**/*.php",           ['bs-reload']);
     gulp.watch("../common/css/*.css",   ['bs-reload']);
     gulp.watch("sass/*.scss",           ['bs-reload']);
     gulp.watch("../common/js/*.js",     ['bs-reload']);

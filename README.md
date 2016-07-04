@@ -12,7 +12,6 @@ sudo npm install gulp-compass --save-dev
 sudo npm install gulp-plumber --save-dev
 sudo npm install gulp-pleeease --save-dev
 sudo npm install gulp-uglify --save-dev
-sudo npm install gulp-rename --save-dev
 ```
 
 
@@ -21,18 +20,17 @@ sudo npm install gulp-rename --save-dev
 ```
 project/
   ├ common/
-  │  ├ config.rb
   │  ├ css/
-  │  │ ├ style.min.css
-  │  │ └ style.css
+  │  │ └ style.min.css
   │  ├ img/
-  │  ├ js/
-  │  │ ├ script.min.js
-  │  │ └ script.js
+  │  └ js/
+  ├ src/
+  │  ├ node_modules/
   │  ├ sass/
   │  │ └ style.scss
-  │  └ gulp/
-  │    ├ gulpfile.js
-  │    └ node_modules/
-  └ index.html
+  │  ├ css/
+  │  │ └ style.css
+  │  ├ gulpfile.js
+  │  └ config.rb
+  └ index.htmlt
 ```

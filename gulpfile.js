@@ -2,9 +2,6 @@ var gulp = require('gulp');
 var browserSync =require('browser-sync');
 var compass = require('gulp-compass');
 var plumber = require('gulp-plumber');
-var pleeease = require('gulp-pleeease');
-var uglify = require('gulp-uglify');
-var rename = require("gulp-rename");
 
 gulp.task('default', ['browser-sync']);
 
@@ -32,40 +29,7 @@ gulp.task('compass', function () {
   }))
 });
 
-//pleeease
-gulp.task('pleeease', function () {
-	gulp.src('css/*.css')
-	.pipe(pleeease({
-	  mqpacker: true,
-	  minifier: true,
-		autoprefixer: false
-	}))
-	.pipe(rename({
-  	extname: '.min.css'
-  }))
-	.pipe(gulp.dest('../common/css'));
-});
-
-//uglify
-gulp.task('uglify', function() {
-  return gulp.src('js/*.js')
-    .pipe(uglify())
-    .pipe(rename({
-      extname: '.min.js'
-    }))
-    .pipe(gulp.dest('../common/js'));
-});
-
-
 gulp.task('watch', function(){
-  gulp.watch('css/*.css', function(event) {
-      gulp.run('pleeease');
-  });
-  
-  gulp.watch('js/*.js', function(event) {
-      gulp.run('uglify');
-  });
-  
   gulp.watch('sass/*.scss', function(event) {
       gulp.run('compass');
   });
@@ -85,9 +49,7 @@ gulp.task('default', ['browser-sync'], function () {
     gulp.watch("../**/*.html",          ['bs-reload']);
     gulp.watch("../**/*.php",           ['bs-reload']);
     gulp.watch("../common/css/*.css",   ['bs-reload']);
-    gulp.watch("sass/*.scss",           ['bs-reload']);
+    gulp.watch("../common/sass/*.scss",           ['bs-reload']);
     gulp.watch("../common/js/*.js",     ['bs-reload']);
-    gulp.watch('sass/*.scss',           ['compass']);
-    gulp.watch('css/*.css',           	['pleeease']);
-    gulp.watch('js/*.js',         	  	['uglify']);
+    gulp.watch('../common/sass/*.scss',           ['compass']);
 });

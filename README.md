@@ -1,18 +1,19 @@
 # gulpfile
 
-## Install
+## gulp インストール
 
 ```
 sudo npm install gulp --save-dev
 ```
 
+## プラグイン
+
++ browser-sync
++ gulp-compass
++ gulp-plumber
+
 ```
-sudo npm install browser-sync --save-dev
-sudo npm install gulp-compass --save-dev
-sudo npm install gulp-plumber --save-dev
-sudo npm install gulp-pleeease --save-dev
-sudo npm install gulp-uglify --save-dev
-sudo npm install gulp-rename --save-dev
+sudo npm install browser-sync gulp-compass gulp-plumber --save-dev
 ```
 
 
@@ -21,17 +22,10 @@ sudo npm install gulp-rename --save-dev
 ```
 project/
   ├ common/
+  │  ├ sass/
   │  ├ css/
-  │  │ └ style.min.css
   │  ├ img/
   │  └ js/
-  ├ src/
-  │  ├ node_modules/
-  │  ├ sass/
-  │  │ └ style.scss
-  │  ├ css/
-  │  │ └ style.css
-  │  ├ gulpfile.js
-  │  └ config.rb
-  └ index.htmlt
+  ├ gulp/
+  └ index.html
 ```

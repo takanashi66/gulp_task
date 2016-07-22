@@ -15,41 +15,43 @@ gulp.task('browser-sync', function() {
 	});
 });
 
-//compass
-gulp.task('compass', function () {
-	gulp.src('../common/sass/*.scss')
-  .pipe(plumber({
-    errorHandler: function (error) {
-      console.log(error.message);
-      this.emit('end');
-  }}))
-  .pipe(compass({
-    css: 'css',
-    sass: 'sass',
-  }))
+
+gulp.task('compass', function() {
+	gulp.src('*.scss')
+	.pipe(plumber({
+		errorHandler: function (error) {
+		console.log(error.message);
+		this.emit('end');
+	}}))
+	.pipe(compass({
+		css: '../common/css',
+		sass: '../common/sass',
+	}))
 });
 
-gulp.task('watch', function(){
-  gulp.watch('../common/sass/*.scss', function(event) {
-      gulp.run('compass');
-  });
-});
 
 //ブラウザリロード
 gulp.task('bs-reload', function () {
-    browserSync.reload();
+	browserSync.reload();
+});
+
+
+gulp.task('watch', function(){
+	gulp.watch('*.scss', function(event) {
+		gulp.run('compass');
+	});
 });
 
 
 
 //監視するファイル
 gulp.task('default', ['browser-sync'], function () {
-    gulp.watch("../*.html",             ['bs-reload']);
-    gulp.watch("../*.php",              ['bs-reload']);
-    gulp.watch("../**/*.html",          ['bs-reload']);
-    gulp.watch("../**/*.php",           ['bs-reload']);
-    gulp.watch("../common/css/*.css",   ['bs-reload']);
-    gulp.watch("../common/sass/*.scss",           ['bs-reload']);
-    gulp.watch("../common/js/*.js",     ['bs-reload']);
-    gulp.watch('../common/sass/*.scss',           ['compass']);
+	gulp.watch("../*.html",									['bs-reload']);
+	gulp.watch("../**/*.html",							['bs-reload']);
+	gulp.watch("../**/*.php",								['bs-reload']);
+	gulp.watch("../*.php",									['bs-reload']);
+	gulp.watch("../common/css/*.css",				['bs-reload']);
+	gulp.watch("../common/sass/*.scss",			['bs-reload']);
+	gulp.watch("../common/js/*.js",					['bs-reload']);
+	gulp.watch('../common/sass/**/*.scss',	['compass']);
 });

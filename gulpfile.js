@@ -17,7 +17,7 @@ gulp.task('browser-sync', function() {
 
 //compass
 gulp.task('compass', function () {
-	gulp.src('sass/*.scss')
+	gulp.src('../common/sass/*.scss')
   .pipe(plumber({
     errorHandler: function (error) {
       console.log(error.message);
@@ -30,7 +30,7 @@ gulp.task('compass', function () {
 });
 
 gulp.task('watch', function(){
-  gulp.watch('sass/*.scss', function(event) {
+  gulp.watch('../common/sass/*.scss', function(event) {
       gulp.run('compass');
   });
 });

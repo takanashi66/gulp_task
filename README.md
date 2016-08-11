@@ -9,11 +9,12 @@ sudo npm install gulp --save-dev
 ## プラグイン
 
 + browser-sync
-+ gulp-compass
++ gulp-sass
 + gulp-plumber
++ gulp-pleeease
 
 ```
-sudo npm install browser-sync gulp-compass gulp-plumber --save-dev
+npm install --save-dev browser-sync gulp-pleeease gulp-plumber gulp-sass
 ```
 
 
@@ -22,10 +23,13 @@ sudo npm install browser-sync gulp-compass gulp-plumber --save-dev
 ```
 project/
   ├ common/
-  │  ├ sass/
   │  ├ css/
   │  ├ img/
   │  └ js/
-  ├ gulp/
+  ├ package/
+  │  ├ scss/
+  │  ├ node_modules/
+  │  ├ gulpfile
+  │  └ package.json
   └ index.html
 ```

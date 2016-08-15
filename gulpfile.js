@@ -3,6 +3,7 @@ var browserSync =require('browser-sync');
 var plumber = require('gulp-plumber');
 var pleeease = require('gulp-pleeease');
 var sass = require('gulp-sass');
+var notify = require('gulp-notify');
 
 gulp.task('default', ['browser-sync']);
 
@@ -18,10 +19,8 @@ gulp.task('browser-sync', function() {
 gulp.task('css', function () {
   gulp.src('sass/*.scss')
   	.pipe(plumber({
-		    errorHandler: function (error) {
-		      console.log(error.message);
-		      this.emit('end');
-		  }}))
+			errorHandler: notify.onError("Error: <%= error.message %>")
+		}))
     .pipe(sass({outputStyle: 'expanded'}))
     .pipe(pleeease({
 		  mqpacker: true,
@@ -29,8 +28,8 @@ gulp.task('css', function () {
 			autoprefixer: true
 		}))
     .pipe(gulp.dest('../common/css'))
-    .pipe(browserSync.stream());
-    console.log("re-reload");
+    .pipe(browserSync.stream())
+    .pipe(notify('Sass compiled!'));
 });
 
 gulp.task('bs-reload', function () {

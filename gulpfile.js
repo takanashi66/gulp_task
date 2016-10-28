@@ -11,6 +11,7 @@ var mmq 					= require('gulp-merge-media-queries');
 var cssmin 				= require('gulp-minify-css');
 var notify 				= require('gulp-notify');
 var uglify				= require('gulp-uglify');
+var reload				= browserSync.reload
 
 
 gulp.task('browser-sync', function() {
@@ -43,8 +44,7 @@ gulp.task('sass', function(){
 	}))
 	.pipe(mmq())
 	.pipe(sourcemaps.write('../map'))
-	.pipe(gulp.dest(cmnpath + 'css'))
-	.pipe(notify("sass conpiled!"));
+	.pipe(gulp.dest(cmnpath + 'css'));
 });
 
 
@@ -72,7 +72,7 @@ gulp.task('watch', function(){
 			rootpath	+	'**/*.php',
 			cmnpath		+ 'js/*.js',
 			cmnpath		+ 'css/*.css'
-		],['browser-reload']);	
+		]).on('change', reload);
 });
 
 

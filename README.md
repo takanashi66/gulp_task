@@ -1,20 +1,22 @@
 # gulpfile
 
-## gulp インストール
-
-```
-sudo npm install gulp --save-dev
-```
-
 ## プラグイン
 
 + browser-sync
 + gulp-sass
 + gulp-plumber
 + gulp-pleeease
++ gulp-notify
++ gulp-autoprefixer
++ gulp-sourcemaps
++ gulp-merge-media-queries
++ gulp-minify-css
++ gulp-uglify
+
+### プラグインのインストール
 
 ```
-npm install --save-dev browser-sync gulp-pleeease gulp-plumber gulp-sass
+npm install --save-dev gulp browser-sync gulp-plumber gulp-sass gulp-notify gulp-autoprefixer gulp-sourcemaps gulp-merge-media-queries gulp-minify-css gulp-uglify
 ```
 
 
@@ -22,14 +24,18 @@ npm install --save-dev browser-sync gulp-pleeease gulp-plumber gulp-sass
 
 ```
 project/
-  ├ common/
-  │  ├ css/
-  │  ├ img/
-  │  └ js/
-  ├ package/
-  │  ├ scss/
-  │  ├ node_modules/
-  │  ├ gulpfile
-  │  └ package.json
-  └ index.html
+	├ htdocs/
+	│		├ common/
+	│	  │ 	├ sass/
+	│	  │ 	├ css/
+	│	  │ 	├ map/
+	│	  │ 	├ img/
+	│	  │ 	└ js/	
+	│		└index.html
+  │
+  ├ .git/
+  ├ node_modules/
+  ├ gulpfile.js
+  └ package.json
+  
 ```

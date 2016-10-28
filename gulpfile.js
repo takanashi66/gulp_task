@@ -1,58 +1,80 @@
-var gulp = require('gulp');
-var browserSync =require('browser-sync');
-var plumber = require('gulp-plumber');
-var pleeease = require('gulp-pleeease');
-var sass = require('gulp-sass');
-var notify = require('gulp-notify');
+var rootpath			= 'htdocs/';
+var cmnpath				= rootpath + 'common/';
 
-gulp.task('default', ['browser-sync']);
+var gulp 					= require('gulp');
+var sass 					= require('gulp-sass');
+var browserSync 	= require('browser-sync').create();
+var autoprefixer	= require('gulp-autoprefixer');
+var sourcemaps 		= require('gulp-sourcemaps');
+var plumber 			= require('gulp-plumber');
+var mmq 					= require('gulp-merge-media-queries');
+var cssmin 				= require('gulp-minify-css');
+var notify 				= require('gulp-notify');
+var uglify				= require('gulp-uglify');
+
 
 gulp.task('browser-sync', function() {
-	browserSync({
+	browserSync.init({
 		server: {
-			baseDir: "../" //監視するディレクトリ
-			,index  : "index.html"
+			baseDir: rootpath
 		}
+		//proxy: "http://localhost/codecode/"
 	});
 });
 
-gulp.task('css', function () {
-  gulp.src('sass/*.scss')
-  	.pipe(plumber({
-			errorHandler: notify.onError("Error: <%= error.message %>")
-		}))
-    .pipe(sass({outputStyle: 'expanded'}))
-    .pipe(pleeease({
-		  mqpacker: true,
-		  minifier: false,
-			autoprefixer: true
-		}))
-    .pipe(gulp.dest('../common/css'))
-    .pipe(browserSync.stream())
-    .pipe(notify('Sass compiled!'));
+
+gulp.task('browser-reload', function() {
+	browserSync.reload();
 });
 
-gulp.task('bs-reload', function () {
-    browserSync.reload();
+
+gulp.task('sass', function(){
+	gulp.src(cmnpath + 'sass/*.scss')
+	.pipe(sourcemaps.init())
+	.pipe(plumber({
+		errorHandler: notify.onError('Error: <%= error.message %>')
+	}))
+	.pipe(sass())
+	.pipe(autoprefixer({
+		browsers: [
+			'last 2 versions'
+		],
+		cascade: false
+	}))
+	.pipe(mmq())
+	.pipe(sourcemaps.write('../map'))
+	.pipe(gulp.dest(cmnpath + 'css'))
+	.pipe(notify("sass conpiled!"));
 });
+
+
+
+
+gulp.task('cssmin', function() {
+	gulp.src(cmnpath + 'css/*')
+	.pipe(cssmin())
+	.pipe(gulp.dest(cmnpath + 'min/css/'));
+});
+
+gulp.task('jsmin', function() {
+ gulp.src(cmnpath + 'js/*')
+ .pipe(uglify())
+ .pipe(gulp.dest(cmnpath + 'min/js/'));
+});
+
+
 
 gulp.task('watch', function(){
-	gulp.watch(' sass/*.scss', function(event) {
-		gulp.run('css');
-	});
-});
- 
-gulp.task('default', function() {
-  gulp.watch("sass/*.scss",["css"]);
+	gulp.watch(cmnpath + 'sass/**/*.scss',['sass']);
+	gulp.watch(
+		[
+			rootpath	+	'**/*.html',
+			rootpath	+	'**/*.php',
+			cmnpath		+ 'js/*.js',
+			cmnpath		+ 'css/*.css'
+		],['browser-reload']);	
 });
 
-gulp.task('default', ['browser-sync'], function () {
-	gulp.watch("sass/*.scss",           ['css']);
-  gulp.watch("../*.html",             ['bs-reload']);
-  gulp.watch("../*.php",              ['bs-reload']);
-  gulp.watch("../**/*.html",          ['bs-reload']);
-  gulp.watch("../**/*.php",           ['bs-reload']);
-  //gulp.watch("sass/*.scss",           ['bs-reload']);
-  gulp.watch("../common/css/*.css",   ['bs-reload']);
-  gulp.watch("../common/js/*.js",     ['bs-reload']);
-});
+
+gulp.task('default', ['browser-sync','watch']);
+gulp.task('deploy',  ['cssmin','jsmin']);

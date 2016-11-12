@@ -11,6 +11,7 @@ var mmq 					= require('gulp-merge-media-queries');
 var cssmin 				= require('gulp-minify-css');
 var notify 				= require('gulp-notify');
 var uglify				= require('gulp-uglify');
+var htmlmin				= require('gulp-minify-html');
 
 
 
@@ -28,18 +29,13 @@ gulp.task("browser-reload", function() {
 });
 
 
-gulp.task('browser-reload', function() {
-	browserSync.reload();
-});
-
-
 gulp.task('sass', function(){
 	gulp.src(cmnpath + 'sass/*.scss')
 	.pipe(sourcemaps.init())
 	.pipe(plumber({
 		errorHandler: notify.onError('Error: <%= error.message %>')
 	}))
-	.pipe(sass())
+	.pipe(sass({outputStyle: 'compressed'}))
 	.pipe(autoprefixer({
 		browsers: [
 			'last 2 versions'
@@ -58,13 +54,19 @@ gulp.task('sass', function(){
 gulp.task('cssmin', function() {
 	gulp.src(cmnpath + 'css/*')
 	.pipe(cssmin())
-	.pipe(gulp.dest(cmnpath + 'min/css/'));
+	.pipe(gulp.dest(rootpath + 'min/common/css/'));
 });
 
 gulp.task('jsmin', function() {
  gulp.src(cmnpath + 'js/*')
  .pipe(uglify())
- .pipe(gulp.dest(cmnpath + 'min/js/'));
+ .pipe(gulp.dest(rootpath + 'min/common/js/'));
+});
+
+gulp.task('htmlmin', function() {
+ gulp.src(rootpath	+	'**/*.html')
+ .pipe(htmlmin())
+ .pipe(gulp.dest(rootpath + 'min/'));
 });
 
 
@@ -82,4 +84,4 @@ gulp.task('watch', function(){
 
 
 gulp.task('default', ['browser-sync','watch']);
-gulp.task('deploy',  ['cssmin','jsmin']);
+gulp.task('deploy',  ['htmlmin','phpmin','cssmin','jsmin']);

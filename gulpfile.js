@@ -11,7 +11,7 @@ var mmq 					= require('gulp-merge-media-queries');
 var cssmin 				= require('gulp-minify-css');
 var notify 				= require('gulp-notify');
 var uglify				= require('gulp-uglify');
-var reload				= browserSync.reload
+
 
 
 gulp.task('browser-sync', function() {
@@ -21,6 +21,10 @@ gulp.task('browser-sync', function() {
 		}
 		//proxy: "http://localhost/codecode/"
 	});
+});
+
+gulp.task("browser-reload", function() {
+  browserSync.reload();
 });
 
 
@@ -44,7 +48,8 @@ gulp.task('sass', function(){
 	}))
 	.pipe(mmq())
 	.pipe(sourcemaps.write('../map'))
-	.pipe(gulp.dest(cmnpath + 'css'));
+	.pipe(gulp.dest(cmnpath + 'css'))
+	.pipe(browserSync.stream());
 });
 
 
@@ -70,9 +75,9 @@ gulp.task('watch', function(){
 		[
 			rootpath	+	'**/*.html',
 			rootpath	+	'**/*.php',
-			cmnpath		+ 'js/*.js',
-			cmnpath		+ 'css/*.css'
-		]).on('change', reload);
+			cmnpath		+ 'js/*.js'
+		],
+		['browser-reload']);
 });
 
 

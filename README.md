@@ -21,11 +21,12 @@ npm install -g gulp
 + gulp-merge-media-queries
 + gulp-minify-css
 + gulp-uglify
++ gulp-minify-html
 
 ### プラグインのインストール
 
 ```
-npm install --save-dev gulp browser-sync gulp-plumber gulp-sass gulp-notify gulp-autoprefixer gulp-sourcemaps gulp-merge-media-queries gulp-minify-css gulp-uglify
+npm install --save-dev gulp browser-sync gulp-plumber gulp-sass gulp-notify gulp-autoprefixer gulp-sourcemaps gulp-merge-media-queries gulp-minify-css gulp-uglify gulp-minify-html
 ```
 
 

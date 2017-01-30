@@ -11,6 +11,7 @@ var mmq 					= require('gulp-merge-media-queries');
 var cssmin 				= require('gulp-minify-css');
 var notify 				= require('gulp-notify');
 var uglify				= require('gulp-uglify');
+var concat        = require("gulp-concat");
 var htmlmin				= require('gulp-minify-html');
 
 
@@ -49,6 +50,14 @@ gulp.task('sass', function(){
 });
 
 
+gulp.task('concat', function() {
+	gulp.src(cmnpath + 'js/module/*.js')
+	.pipe(plumber())
+	.pipe(concat('script.js'))
+	.pipe(uglify())
+	.pipe(gulp.dest(cmnpath + 'js/'))
+	.pipe(browserSync.stream());
+});
 
 
 gulp.task('cssmin', function() {
@@ -73,11 +82,11 @@ gulp.task('htmlmin', function() {
 
 gulp.task('watch', function(){
 	gulp.watch(cmnpath + 'sass/**/*.scss',['sass']);
+	gulp.watch(cmnpath + 'js/module/*.js',['concat']);
 	gulp.watch(
 		[
 			rootpath	+	'**/*.html',
-			rootpath	+	'**/*.php',
-			cmnpath		+ 'js/*.js'
+			rootpath	+	'**/*.php'
 		],
 		['browser-reload']);
 });

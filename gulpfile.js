@@ -13,6 +13,8 @@ var notify 				= require('gulp-notify');
 var uglify				= require('gulp-uglify');
 var concat        = require("gulp-concat");
 var htmlmin				= require('gulp-minify-html');
+var pug           = require('gulp-pug');
+var babel         = require('gulp-babel');
 
 
 
@@ -21,7 +23,7 @@ gulp.task('browser-sync', function() {
 		server: {
 			baseDir: rootpath
 		}
-		//proxy: "http://localhost/codecode/"
+		//proxy: "http://localhost/"
 	});
 });
 
@@ -29,6 +31,17 @@ gulp.task("browser-reload", function() {
   browserSync.reload();
 });
 
+gulp.task('pug', function(){
+  gulp.src(rootpath + 'pug/*.pug')
+  .pipe(plumber({
+    errorHandler: notify.onError('Error: <%= error.message %>')
+  }))
+  .pipe(pug({
+    pretty: true
+  }))
+  .pipe(gulp.dest(rootpath))
+  .pipe(browserSync.stream());
+})
 
 gulp.task('sass', function(){
 	gulp.src(cmnpath + 'sass/*.scss')
@@ -49,43 +62,27 @@ gulp.task('sass', function(){
 	.pipe(browserSync.stream());
 });
 
-
-gulp.task('concat', function() {
-	gulp.src(cmnpath + 'js/module/*.js')
-	.pipe(plumber())
-	.pipe(concat('script.js'))
-	.pipe(uglify())
-	.pipe(gulp.dest(cmnpath + 'js/'))
-	.pipe(browserSync.stream());
+gulp.task('babel', function() {
+  gulp.src(cmnpath + 'js/es/**/*.js')
+  .pipe(plumber({
+    errorHandler: notify.onError('Error: <%= error.message %>')
+  }))
+  .pipe(babel({
+    presets: ['es2015']
+  }))
+  .pipe(concat('script.js'))
+  .pipe(uglify())
+  .pipe(gulp.dest(cmnpath + 'js/'))
+  .pipe(browserSync.stream());
 });
-
-
-gulp.task('cssmin', function() {
-	gulp.src(cmnpath + 'css/*')
-	.pipe(cssmin())
-	.pipe(gulp.dest(rootpath + 'min/common/css/'));
-});
-
-gulp.task('jsmin', function() {
- gulp.src(cmnpath + 'js/*')
- .pipe(uglify())
- .pipe(gulp.dest(rootpath + 'min/common/js/'));
-});
-
-gulp.task('htmlmin', function() {
- gulp.src(rootpath	+	'**/*.html')
- .pipe(htmlmin())
- .pipe(gulp.dest(rootpath + 'min/'));
-});
-
 
 
 gulp.task('watch', function(){
 	gulp.watch(cmnpath + 'sass/**/*.scss',['sass']);
-	gulp.watch(cmnpath + 'js/module/*.js',['concat']);
+  gulp.watch(rootpath + 'pug/**/*.pug',['pug']);
+	gulp.watch(cmnpath + 'js/es/**/*.js',['babel']);
 	gulp.watch(
 		[
-			rootpath	+	'**/*.html',
 			rootpath	+	'**/*.php'
 		],
 		['browser-reload']);
@@ -93,4 +90,3 @@ gulp.task('watch', function(){
 
 
 gulp.task('default', ['browser-sync','watch']);
-gulp.task('deploy',  ['htmlmin','phpmin','cssmin','jsmin']);

@@ -14,17 +14,15 @@ npm install -g gulp
 + browser-sync
 + gulp-sass
 + gulp-plumber
-+ gulp-pleeease
 + gulp-notify
 + gulp-autoprefixer
 + gulp-sourcemaps
 + gulp-merge-media-queries
-+ gulp-minify-css
 + gulp-uglify
 + gulp-concat
-+ gulp-minify-html
 + gulp-pug
 + gulp-babel
++ babel-preset-es2015
 
 ### プラグインのインストール
 
@@ -64,6 +62,7 @@ project/
 	│		│ 	└ js/
   │		│ 	    ├ es/
   │		│ 	    └ script.js
+	│		├ pug/
 	│		└index.html
 	│
 	├ .git/

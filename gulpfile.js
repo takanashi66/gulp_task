@@ -8,11 +8,9 @@ var autoprefixer	= require('gulp-autoprefixer');
 var sourcemaps 		= require('gulp-sourcemaps');
 var plumber 			= require('gulp-plumber');
 var mmq 					= require('gulp-merge-media-queries');
-var cssmin 				= require('gulp-minify-css');
 var notify 				= require('gulp-notify');
 var uglify				= require('gulp-uglify');
 var concat        = require("gulp-concat");
-var htmlmin				= require('gulp-minify-html');
 var pug           = require('gulp-pug');
 var babel         = require('gulp-babel');
 

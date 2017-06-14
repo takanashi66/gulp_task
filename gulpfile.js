@@ -76,13 +76,14 @@ gulp.task('babel', function() {
 
 
 gulp.task('watch', function(){
-	gulp.watch(cmnpath + 'sass/**/*.scss',['sass']);
-  gulp.watch(rootpath + 'pug/**/*.pug',['pug']);
-	gulp.watch(cmnpath + 'js/es/**/*.js',['babel']);
+	gulp.watch(cmnpath + 'sass/**/*.scss',{ cwd: './' },['sass']);
+  gulp.watch(rootpath + 'pug/**/*.pug',{ cwd: './' },['pug']);
+	gulp.watch(cmnpath + 'js/es/**/*.js',{ cwd: './' },['babel']);
 	gulp.watch(
 		[
+  		rootpath	+	'**/*.html',
 			rootpath	+	'**/*.php'
-		],
+		],{ cwd: './' },
 		['browser-reload']);
 });
 

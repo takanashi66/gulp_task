@@ -11,18 +11,22 @@ npm install -g gulp
 
 ## プラグイン
 
++ gulp
++ babel-core
++ babel-loader
++ babel-polyfill
++ babel-preset-env
 + browser-sync
-+ gulp-sass
-+ gulp-plumber
-+ gulp-notify
 + gulp-autoprefixer
-+ gulp-sourcemaps
 + gulp-merge-media-queries
-+ gulp-uglify
-+ gulp-concat
++ gulp-notify
++ gulp-plumber
 + gulp-pug
-+ gulp-babel
-+ babel-preset-es2015
++ gulp-sass
++ gulp-sourcemaps
++ webpack
++ webpack-stream
+
 
 ### プラグインのインストール
 

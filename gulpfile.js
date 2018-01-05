@@ -78,7 +78,7 @@ gulp.task('sass', () =>{
 });
 
 gulp.task('js', () =>{
-  gulp.src('src/common/js/**/*.js')
+  gulp.src('src/common/js/**/!(_)*.js')
   .pipe(plumber({
     errorHandler: notify.onError('Error: <%= error.message %>')
   }))

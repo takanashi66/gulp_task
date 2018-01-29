@@ -20,7 +20,8 @@ gulp.task('browser-sync', () =>{
 		server: {
 			baseDir: 'htdocs'
 		}
-		//proxy: "http://localhost/"
+		//proxy: "http://localhost/",
+		open: false
 	});
 });
 

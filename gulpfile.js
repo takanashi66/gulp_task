@@ -1,17 +1,17 @@
-const gulp 					= require('gulp');
-const sass 					= require('gulp-sass');
-const browserSync 	= require('browser-sync').create();
-const autoprefixer	= require('gulp-autoprefixer');
-const sourcemaps 		= require('gulp-sourcemaps');
-const plumber 			= require('gulp-plumber');
-const mmq 					= require('gulp-merge-media-queries');
-const notify 				= require('gulp-notify');
-const cssmin				= require('gulp-cssmin');
-const concat        = require('gulp-concat');
-const pug           = require('gulp-pug');
-const webpack       = require('webpack-stream');
-const imgmin        = require('gulp-imagemin');
-const del           = require('del');
+const gulp 					= require('gulp')
+const sass 					= require('gulp-sass')
+const browserSync 	= require('browser-sync').create()
+const autoprefixer	= require('gulp-autoprefixer')
+const sourcemaps 		= require('gulp-sourcemaps')
+const plumber 			= require('gulp-plumber')
+const mmq 					= require('gulp-merge-media-queries')
+const notify 				= require('gulp-notify')
+const cssmin				= require('gulp-cssmin')
+const concat        = require('gulp-concat')
+const pug           = require('gulp-pug')
+const webpack       = require('webpack-stream')
+const imgmin        = require('gulp-imagemin')
+const del           = require('del')
 
 
 
@@ -22,12 +22,12 @@ gulp.task('browser-sync', () =>{
 		}
 		//proxy: "http://localhost/",
 		open: false
-	});
-});
+	})
+})
 
 gulp.task("browser-reload", () =>{
-  browserSync.reload();
-});
+  browserSync.reload()
+})
 
 gulp.task('imgmin', () =>{
   gulp.src('src/common/img/**/*')
@@ -43,8 +43,8 @@ gulp.task('imgmin', () =>{
 })
 
 gulp.task('clean', function () {
-  del(['htdocs/common/img']);
-});
+  del(['htdocs/common/img'])
+})
 
 gulp.task('pug', () =>{
   gulp.src('src/**/!(_)*.pug')
@@ -55,7 +55,7 @@ gulp.task('pug', () =>{
     pretty: true
   }))
   .pipe(gulp.dest('htdocs'))
-  .pipe(browserSync.stream());
+  .pipe(browserSync.stream())
 })
 
 gulp.task('sass', () =>{
@@ -75,8 +75,8 @@ gulp.task('sass', () =>{
   .pipe(cssmin())
 	.pipe(sourcemaps.write('map'))
 	.pipe(gulp.dest('htdocs/common/css'))
-	.pipe(browserSync.stream());
-});
+	.pipe(browserSync.stream())
+})
 
 gulp.task('js', () =>{
   gulp.src('src/common/js/**/!(_)*.js')
@@ -100,22 +100,22 @@ gulp.task('js', () =>{
 
   }))
   .pipe(gulp.dest('htdocs/common/js/'))
-  .pipe(browserSync.stream());
-});
+  .pipe(browserSync.stream())
+})
 
 
 gulp.task('watch', () =>{
-	gulp.watch('src/common/scss/**/*.scss',['sass']);
-  gulp.watch('src/**/*.pug',['pug']);
-	gulp.watch('src/common/js/**/*.js',['js']);
-  gulp.watch('src/common/img/**/*',['clean','imgmin']);
+	gulp.watch('src/common/scss/**/*.scss',['sass'])
+  gulp.watch('src/**/*.pug',['pug'])
+	gulp.watch('src/common/js/**/*.js',['js'])
+  gulp.watch('src/common/img/**/*',['clean','imgmin'])
 	gulp.watch(
 		[
   		'htdocs/**/*.html',
 			'htdocs/**/*.php'
 		],
-		['browser-reload']);
-});
+		['browser-reload'])
+})
 
 
-gulp.task('default', ['browser-sync','watch']);
+gulp.task('default', ['browser-sync','watch'])

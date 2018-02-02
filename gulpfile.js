@@ -19,7 +19,7 @@ gulp.task('browser-sync', () =>{
 	browserSync.init({
 		server: {
 			baseDir: 'htdocs'
-		}
+		},
 		//proxy: "http://localhost/",
 		open: false
 	})

@@ -1,36 +1,50 @@
+//ファイルパス
+const path = {
+  htdocs: 'htdocs/wp-content/themes/natsume',
+  src:    'src/common',
+  dest:   'htdocs/wp-content/themes/natsume/common',
+}
+
+//gulpプラグイン
 const gulp 					= require('gulp')
-const sass 					= require('gulp-sass')
 const browserSync 	= require('browser-sync').create()
-const autoprefixer	= require('gulp-autoprefixer')
-const sourcemaps 		= require('gulp-sourcemaps')
 const plumber 			= require('gulp-plumber')
-const mmq 					= require('gulp-merge-media-queries')
 const notify 				= require('gulp-notify')
-const cssmin				= require('gulp-cssmin')
-const concat        = require('gulp-concat')
+const runSequence   = require('run-sequence');
+//HTML系
 const pug           = require('gulp-pug')
+const minifyHTML    = require('gulp-minify-html')
+//CSS系
+const sass 					= require('gulp-sass')
+const sourcemaps 		= require('gulp-sourcemaps')
+const autoprefixer	= require('gulp-autoprefixer')
+const mmq 					= require('gulp-merge-media-queries')
+const cssmin				= require('gulp-cssmin')
+//JS系
 const webpack       = require('webpack-stream')
+//画像系
 const imgmin        = require('gulp-imagemin')
 const del           = require('del')
 
-
-
+//Browsersync
 gulp.task('browser-sync', () =>{
 	browserSync.init({
 		server: {
-			baseDir: 'htdocs'
-		},
-		//proxy: "http://localhost/",
-		open: false
+			baseDir: path.htdocs
+		}
+		//proxy: 'http://natsume.d/'
 	})
 })
 
-gulp.task("browser-reload", () =>{
+gulp.task('browser-reload', () =>{
   browserSync.reload()
 })
 
+
+
+//画像の圧縮
 gulp.task('imgmin', () =>{
-  gulp.src('src/common/img/**/*')
+  gulp.src(path.src+'/img/**/*')
   .pipe(imgmin({
     interlaced: true,
     progressive: true,
@@ -39,27 +53,51 @@ gulp.task('imgmin', () =>{
       removeViewBox: true
     }]
   }))
-  .pipe(gulp.dest('htdocs/common/img'))
+  .pipe(gulp.dest(path.dest+'/img'))
 })
 
 gulp.task('clean', function () {
-  del(['htdocs/common/img'])
+  del([path.dest+'/img'])
 })
 
+gulp.task('img', function(callback) {
+  return runSequence(
+    'clean',
+    'imgmin',
+    callback
+  );
+});
+
+
+
+//HTMLの圧縮
+gulp.task('html', () =>{
+  gulp.src('src/**/*.html')
+  .pipe(minifyHTML({ empty: true }))
+  .pipe(gulp.dest(path.htdocs))
+  .pipe(browserSync.stream())
+})
+
+
+
+//pugのコンパイル
 gulp.task('pug', () =>{
-  gulp.src('src/**/!(_)*.pug')
+  gulp.src('src/**/*.pug')
   .pipe(plumber({
     errorHandler: notify.onError('Error: <%= error.message %>')
   }))
   .pipe(pug({
     pretty: true
   }))
-  .pipe(gulp.dest('htdocs'))
-  .pipe(browserSync.stream())
+  .pipe(gulp.dest(path.htdocs))
+  .pipe(browserSync.stream());
 })
 
+
+
+//Sassのコンパイル・圧縮・ベンダープレフィックスの付与
 gulp.task('sass', () =>{
-	gulp.src('src/common/scss/**/*.scss')
+	gulp.src(path.src+'/scss/**/*.scss')
 	.pipe(sourcemaps.init())
 	.pipe(plumber({
 		errorHandler: notify.onError('Error: <%= error.message %>')
@@ -74,24 +112,27 @@ gulp.task('sass', () =>{
 	.pipe(mmq())
   .pipe(cssmin())
 	.pipe(sourcemaps.write('map'))
-	.pipe(gulp.dest('htdocs/common/css'))
+	.pipe(gulp.dest(path.dest+'/css'))
 	.pipe(browserSync.stream())
 })
 
+
+
+//JavaScriptのトランスパイルと結合・圧縮
 gulp.task('js', () =>{
-  gulp.src('src/common/js/**/!(_)*.js')
+  gulp.src(path.src+'/js/**/!(_)*.js')
   .pipe(plumber({
     errorHandler: notify.onError('Error: <%= error.message %>')
   }))
   .pipe(webpack({
     output: {
-      filename: "script.js"
+      filename: 'script.js'
     },
     module: {
       loaders: [{
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: "babel-loader",
+        loader: 'babel-loader',
         query:{
           presets: ['env']
         }
@@ -99,23 +140,24 @@ gulp.task('js', () =>{
     },
 
   }))
-  .pipe(gulp.dest('htdocs/common/js/'))
+  .pipe(gulp.dest(path.dest+'/js'))
   .pipe(browserSync.stream())
 })
 
 
+
+//watch
 gulp.task('watch', () =>{
-	gulp.watch('src/common/scss/**/*.scss',['sass'])
-  gulp.watch('src/**/*.pug',['pug'])
-	gulp.watch('src/common/js/**/*.js',['js'])
-  gulp.watch('src/common/img/**/*',['clean','imgmin'])
-	gulp.watch(
-		[
-  		'htdocs/**/*.html',
-			'htdocs/**/*.php'
-		],
-		['browser-reload'])
+	gulp.watch('src/**/*.pug',['pug'])
+	gulp.watch('src/**/*.html',['html'])
+	gulp.watch(path.htdocs+'/**/*.html',['browser-reload'])
+	gulp.watch(path.htdocs+'/**/*.php',['browser-reload'])
+	gulp.watch(path.src+'/scss/**/*.scss',['sass'])
+	gulp.watch(path.src+'/js/**/*.js',['js'])
+  gulp.watch(path.src+'/img/**/*',['img'])
 })
 
 
-gulp.task('default', ['browser-sync','watch'])
+
+//デフォルト
+gulp.task('default', ['pug','sass','js','html','img','browser-sync','watch'])

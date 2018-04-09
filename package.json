@@ -1,7 +1,7 @@
 {
-  "name": "nastume",
+  "name": "",
   "version": "1.0.0",
-  "description": "本番サイト [https://kanpo-natsume.com/](https://kanpo-natsume.com/)",
+  "description": "",
   "main": "gulpfile.js",
   "dependencies": {},
   "devDependencies": {

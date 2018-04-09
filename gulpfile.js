@@ -1,8 +1,8 @@
 //ファイルパス
 const path = {
-  htdocs: 'htdocs/wp-content/themes/natsume',
+  htdocs: 'htdocs/',
   src:    'src/common',
-  dest:   'htdocs/wp-content/themes/natsume/common',
+  dest:   'htdocs/common',
 }
 
 //gulpプラグイン
@@ -32,7 +32,7 @@ gulp.task('browser-sync', () =>{
 		server: {
 			baseDir: path.htdocs
 		}
-		//proxy: 'http://natsume.d/'
+		//proxy: 'http://localhost/'
 	})
 })
 

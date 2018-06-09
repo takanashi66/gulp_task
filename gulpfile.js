@@ -22,9 +22,6 @@ const mmq 					= require('gulp-merge-media-queries')
 const cssmin				= require('gulp-cssmin')
 //JS系
 const webpack       = require('webpack-stream')
-//画像系
-const imgmin        = require('gulp-imagemin')
-const del           = require('del')
 
 //Browsersync
 gulp.task('browser-sync', () =>{
@@ -39,34 +36,6 @@ gulp.task('browser-sync', () =>{
 gulp.task('browser-reload', () =>{
   browserSync.reload()
 })
-
-
-
-//画像の圧縮
-gulp.task('imgmin', () =>{
-  gulp.src(path.src+'/img/**/*')
-  .pipe(imgmin({
-    interlaced: true,
-    progressive: true,
-    optimizationLevel: 5,
-    svgoPlugins: [{
-      removeViewBox: true
-    }]
-  }))
-  .pipe(gulp.dest(path.dest+'/img'))
-})
-
-gulp.task('clean', function () {
-  del([path.dest+'/img'])
-})
-
-gulp.task('img', function(callback) {
-  return runSequence(
-    'clean',
-    'imgmin',
-    callback
-  );
-});
 
 
 
@@ -160,4 +129,4 @@ gulp.task('watch', () =>{
 
 
 //デフォルト
-gulp.task('default', ['pug','sass','js','html','img','browser-sync','watch'])
+gulp.task('default', ['pug','sass','js','browser-sync','watch'])
